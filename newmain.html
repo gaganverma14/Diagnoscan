@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Patient Management System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Store Patient Records and History">
+    <meta name="keywords" content="HTML, CSS, JavaScript, Medical Records">
+    <meta name="author" content="Gagan Shankar Verma">
+    <link rel="icon" href="https://static.vecteezy.com/system/resources/previews/008/909/188/non_2x/dmh-logo-dmh-letter-dmh-letter-logo-design-initials-dmh-logo-linked-with-circle-and-uppercase-monogram-logo-dmh-typography-for-technology-business-and-real-estate-brand-vector.jpg" type="image/x-icon">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-light: #ecf0f1;
+            --text-dark: #2c3e50;
+            --text-light: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 20px 5%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            color: var(--text-light);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .header-logo {
+            width: 80px;
+            height: 80px;
+            margin-right: 20px;
+            border-radius: 50%;
+            background-color: white;
+            padding: 5px;
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .header h2 {
+            font-size: 18px;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            color: var(--primary-color);
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-header .toggle-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--secondary-color);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .form-col {
+            padding: 0 10px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        input[type="time"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .radio-option input {
+            margin-right: 5px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-success {
+            background-color: #2ecc71;
+        }
+
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+
+        .btn-danger {
+            background-color: var(--accent-color);
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .address-card {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+        }
+
+        .address-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .address-info i {
+            color: var(--secondary-color);
+            font-size: 20px;
+        }
+
+        .collapsible-content {
+            max-height: 1000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .collapsed {
+            max-height: 0;
+        }
+
+        .diagnostic-section {
+            margin-bottom: 25px;
+        }
+
+        .diagnostic-section label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+            color: var(--primary-color);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #e0e0e0;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-logo {
+                margin: 0 auto 15px;
+            }
+
+            .form-col {
+                flex: 100%;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .no-print {
+                display: none;
+            }
+
+            .card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+
+            body {
+                background-color: white;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Signature section */
+        .signature-section {
+            margin-top: 40px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .signature-box {
+            width: 300px;
+            text-align: center;
+        }
+
+        .signature-line {
+            border-bottom: 1px solid #333;
+            margin-bottom: 5px;
+            height: 50px;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background-color: #2ecc71;
+            color: white;
+            border-radius: 4px;
+            box-shadow: var(--shadow);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* Status indicator */
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .status-new {
+            background-color: #3498db;
+        }
+
+        .status-saved {
+            background-color: #2ecc71;
+        }
+
+        /* Date and time display */
+        .date-time-display {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Notification element -->
+        <div class="notification" id="notification">Record saved successfully!</div>
+        
+        <!-- Header section -->
+        <div class="header fade-in">
+            <img class="header-logo" src="diagno.png" alt="LPU logo">
+            <div class="header-text">
+                <h1>Diagnoscan</h1>
+                <h2>Healthcare Management System</h2>
+            </div>
+            <div class="date-time-display" id="currentDateTime"></div>
+        </div>
+
+        <!-- Hospital Address -->
+        <div class="address-card fade-in">
+            <div class="address-info">
+                <span>📍</span>
+                <div>
+                    <strong>Diagnoscan</strong><br>
+                    Patel Nagar, B.L.W, Varanasi, 221004
+                </div>
+            </div>
+        </div>
+
+        <!-- Patient Identification -->
+        <div class="card fade-in">
+            <div class="card-header">
+                Patient Identification
+                <button class="toggle-btn" data-target="patient-id-content">−</button>
+            </div>
+            <div class="collapsible-content" id="patient-id-content">
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="uhid">Patient UHID Number:</label>
+                            <input type="text" id="uhid" placeholder="Enter UHID">
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="visitDate">Visit Date:</label>
+                            <input type="date" id="visitDate">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Patient Details -->
+        <div class="card fade-in">
+            <div class="card-header">
+                Patient Details
+                <button class="toggle-btn" data-target="patient-details-content">−</button>
+            </div>
+            <div class="collapsible-content" id="patient-details-content">
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="patientName">Full Name:</label>
+                            <input type="text" id="patientName" placeholder="Enter patient's full name">
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="patientAge">Age:</label>
+                            <input type="number" id="patientAge" placeholder="Age">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label>Gender:</label>
+                            <div class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="gender" value="male"> Male
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="gender" value="female"> Female
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="gender" value="other"> Other
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="patientMobile">Mobile Number:</label>
+                            <input type="text" id="patientMobile" placeholder="Enter mobile number">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="patientAddress">Address:</label>
+                    <textarea id="patientAddress" rows="2" placeholder="Enter patient's complete address"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="visitTime">Visit Time:</label>
+                            <input type="time" id="visitTime">
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="patientEmail">Email (Optional):</label>
+                            <input type="text" id="patientEmail" placeholder="Enter email address">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diagnostic Form -->
+        <div class="card fade-in">
+            <div class="card-header">
+                Medical Assessment
+                <button class="toggle-btn" data-target="diagnostic-content">−</button>
+            </div>
+            <div class="collapsible-content" id="diagnostic-content">
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="assessmentDate">Assessment Date:</label>
+                            <input type="date" id="assessmentDate">
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="assessmentTime">Assessment Time:</label>
+                            <input type="time" id="assessmentTime">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="diagnostic-section">
+                    <label for="examinationFindings">Examination Findings:</label>
+                    <textarea id="examinationFindings" rows="4" placeholder="Enter detailed examination findings"></textarea>
+                </div>
+                
+                <div class="diagnostic-section">
+                    <label for="investigation">Investigation:</label>
+                    <textarea id="investigation" rows="4" placeholder="Enter investigation details"></textarea>
+                </div>
+                
+                <div class="diagnostic-section">
+                    <label for="diagnosis">Diagnosis:</label>
+                    <textarea id="diagnosis" rows="4" placeholder="Enter diagnosis"></textarea>
+                </div>
+                
+                <div class="diagnostic-section">
+                    <label for="treatment">Treatment Plan:</label>
+                    <textarea id="treatment" rows="4" placeholder="Enter treatment plan"></textarea>
+                </div>
+                
+                <div class="diagnostic-section">
+                    <label for="followUpAdvice">Follow-up Advice:</label>
+                    <textarea id="followUpAdvice" rows="4" placeholder="Enter follow-up instructions for the patient"></textarea>
+                </div>
+                
+                <div class="signature-section">
+                    <div class="signature-box">
+                        <div class="signature-line" id="signatureArea"></div>
+                        <div>
+                            <strong>Doctor's Signature</strong><br>
+                            <span id="docName">[Doctor's Name]</span><br>
+                            <span id="signatureDate"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="action-buttons fade-in no-print">
+            <button class="btn btn-primary" id="btnClear">Clear Form</button>
+            <button class="btn btn-success" id="btnSave">Save Record</button>
+            <button class="btn btn-primary" id="btnPrint">Print Record</button>
+        </div>
+        
+        <footer class="no-print">
+            &copy; 2025 Diagnoscan. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        // Initialize the page when document is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date and time
+            updateDateTime();
+            setInterval(updateDateTime, 60000); // Update every minute
+            
+            // Set today's date in date fields
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('visitDate').value = today;
+            document.getElementById('assessmentDate').value = today;
+            
+            // Current time
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const currentTime = `${hours}:${minutes}`;
+            document.getElementById('visitTime').value = currentTime;
+            document.getElementById('assessmentTime').value = currentTime;
+            
+            // Set signature date
+            updateSignatureDate();
+            
+            // Add event listeners to toggle buttons
+            const toggleButtons = document.querySelectorAll('.toggle-btn');
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    const targetContent = document.getElementById(targetId);
+                    
+                    if (targetContent.classList.contains('collapsed')) {
+                        targetContent.classList.remove('collapsed');
+                        this.textContent = '−';
+                    } else {
+                        targetContent.classList.add('collapsed');
+                        this.textContent = '+';
+                    }
+                });
+            });
+            
+            // Save button functionality
+            document.getElementById('btnSave').addEventListener('click', saveRecord);
+            
+            // Clear button functionality
+            document.getElementById('btnClear').addEventListener('click', clearForm);
+            
+            // Print button functionality
+            document.getElementById('btnPrint').addEventListener('click', printRecord);
+            
+            // Auto-generate UHID when empty
+            const uhidField = document.getElementById('uhid');
+            if (!uhidField.value) {
+                uhidField.value = generateUHID();
+            }
+            
+            // Doctor name update
+            document.getElementById('docName').textContent = localStorage.getItem('doctorName') || 'Dr. _______________';
+            
+            // If this is the first time loading, ask for doctor's name
+            if (!localStorage.getItem('doctorName')) {
+                setTimeout(() => {
+                    const doctorName = prompt('Please enter your name for the signature:', 'Dr. ');
+                    if (doctorName) {
+                        localStorage.setItem('doctorName', doctorName);
+                        document.getElementById('docName').textContent = doctorName;
+                    }
+                }, 1000);
+            }
+        });
+        
+        // Function to update date and time display
+        function updateDateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            document.getElementById('currentDateTime').textContent = now.toLocaleDateString('en-US', options);
+            updateSignatureDate();
+        }
+        
+        // Update signature date
+        function updateSignatureDate() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            document.getElementById('signatureDate').textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        // Generate a unique UHID
+        function generateUHID() {
+            const timestamp = new Date().getTime().toString().slice(-6);
+            const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            return `DSC-${timestamp}-${random}`;
+        }
+        
+        // Save the record
+        function saveRecord() {
+            // In a real application, this would send data to a server
+            // For now, we'll just simulate saving with localStorage
+            
+            const patientData = {
+                uhid: document.getElementById('uhid').value,
+                name: document.getElementById('patientName').value,
+                age: document.getElementById('patientAge').value,
+                gender: document.querySelector('input[name="gender"]:checked')?.value || '',
+                address: document.getElementById('patientAddress').value,
+                mobile: document.getElementById('patientMobile').value,
+                visitDate: document.getElementById('visitDate').value,
+                visitTime: document.getElementById('visitTime').value,
+                assessmentDate: document.getElementById('assessmentDate').value,
+                assessmentTime: document.getElementById('assessmentTime').value,
+                examination: document.getElementById('examinationFindings').value,
+                investigation: document.getElementById('investigation').value,
+                diagnosis: document.getElementById('diagnosis').value,
+                treatment: document.getElementById('treatment').value,
+                followUp: document.getElementById('followUpAdvice').value,
+                email: document.getElementById('patientEmail').value,
+                doctor: document.getElementById('docName').textContent,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Basic validation
+            if (!patientData.name || !patientData.age) {
+                alert('Please enter at least the patient name and age.');
+                return;
+            }
+            
+            // Save to localStorage (in a real app, this would be a database)
+            const recordKey = `patient_${patientData.uhid}`;
+            localStorage.setItem(recordKey, JSON.stringify(patientData));
+            
+            // Show notification
+            const notification = document.getElementById('notification');
+            notification.textContent = 'Patient record saved successfully!';
+            notification.classList.add('show');
+            
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Clear the form
+        function clearForm() {
+            if (confirm('Are you sure you want to clear all fields?')) {
+                // Clear all input fields except UHID
+                const uhidValue = document.getElementById('uhid').value;
+                
+                const inputElements = document.querySelectorAll('input:not(#uhid), textarea');
+                inputElements.forEach(input => {
+                    input.value = '';
+                });
+                
+                // Reset radio buttons
+                const radioButtons = document.querySelectorAll('input[type="radio"]');
+                radioButtons.forEach(radio => {
+                    radio.checked = false;
+                });
+                
+                // Restore UHID
+                document.getElementById('uhid').value = uhidValue;
+                
+                // Reset date and time fields to current values
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('visitDate').value = today;
+                document.getElementById('assessmentDate').value = today;
+                
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const currentTime = `${hours}:${minutes}`;
+                document.getElementById('visitTime').value = currentTime;
+                document.getElementById('assessmentTime').value = currentTime;
+                
+                // Show notification
+                const notification = document.getElementById('notification');
+                notification.textContent = 'Form cleared successfully!';
+                notification.style.backgroundColor = '#3498db';
+                notification.classList.add('show');
+                
+                // Hide notification after 3 seconds
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    notification.style.backgroundColor = '#2ecc71';
+                }, 3000);
+            }
+        }
+        
+        // Print record
+        function printRecord() {
+            // Check if essential fields are filled
+            const patientName = document.getElementById('patientName').value;
+            
+            if (!patientName) {
+                alert('Please enter at least the patient name before printing.');
+                return;
+            }
+            
+            window.print();
+        }
+    </script>
+</body>
+</html>
